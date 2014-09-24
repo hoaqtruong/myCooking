@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_field_schema()
+ */
+
+ function nutritioninfo_field_schema(){
+ 	
+ 	$columns = array(
+ 	
+ 		'calories' => array(
+ 			
+			'description' => 'The number of calories.',
+			'type'	=> 'varchar',
+			'length' => 255,
+			'not null' => FALSE,
+			'default' => '',
+			
+		),
+	
+	);
+	
+	return array(
+		'columns' => $columns,
+	);
+ }

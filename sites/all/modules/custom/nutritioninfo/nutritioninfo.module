@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * * Implements hook_field_info()
+ */
+ 
+ function nutritioninfo_field_info(){
+ 	$fields = array();
+	
+	$fields['nutritioninfo'] = array(
+		'label' => t('Nutrition Information'),
+		'description' => t('A field type used for storing nutrition information as defined by the Microdata spec at http://schema.org/NutritionInformation.'),
+		'settings' => array(),
+		'instance_settings' => array(),
+		'default_widget' => 'nutritioninfo_standard',
+		'default_formatter' => 'nutritioninfo_default',
+	);
+	
+	return $fields;
+ }
+ 
+ 
+ /**
+  * Implements hook_field_validate()
+  */
+  
+  function nutritioninfo_field_validate( $entity_type , $entity, $field, $instance, $langcode, $items, &$errors){
+  	//at this point we will not validate anything, but will revisit
+  	
+  }
+  
+  function nutritioninfo_field_is_empty ($item, $field) {
+  	//the nutrition field is empty if all of its properties are empty
+  		return empty($item['calories']);
+  }
+  
+  /**
+   * Implements hook_field_widget_info()
+   */
+   
+   function nutritioninfo_field_widget_info(){
+   		$widgets = array();
+		$widgets['nutritioninfo_standard'] = array(
+			'label' => t('Nutrition Information form'),
+			'field types' => array('nutritioninfo'),
+		);
+		
+		return $widgets;
+   }
+   
+   /**
+    * Implements hook_field_widget_form()
+    */
+    
+	function nutritioninfo_field_widget_form ( &$form , &$form_state , $field , $instance , $langcode , $items , $delta , $element) {
+		$settings = $form_state['field'][$instance['field_name']][$langcode]['field']['settings'];
+		
+		$fields = array(
+			'calories' => t('Calories'),
+		);
+		
+		foreach ($fields as $key => $value) {
+			$value = isset($items[$delta][$key]) ? $items[$delta][$key] : '';
+			
+			$element[$key] = array(
+				'#attributes' 	=> 	array('class' => array('edit-nutrition-field'), 'title' => t('')),
+				'#type' 		=> 	'textfield',
+				'#size'			=> 	3,
+				'#maxlength'	=> 	3,
+				'#title'		=> 	$label,
+				'#default_value'=> 	$value,
+				'#prefix'		=> 	'&lt;div class="nutrition-field nutrition-"' . $key .'-field"&gt;',
+				'#suffix'		=>	'&lt;/div&gt;',
+			);
+		}
+			
+		return $element;
+	}
+	
+	/**
+	 * Implements hook_field_formatter_info()
+	 */
+	 
+	 function nutritioninfo_field_formatter_info() {
+	 		
+	 	return array(
+	 		'nutritioninfo_default' => array(
+				'label'			=> 		t('Default'),
+				'field types'	=> 		array('nutritioninfo'),
+			),
+	 	
+		);
+	 }
+	 
+	 /**
+	  * Implements hook_field_formatter_view()
+	  */
+	 
+	 function nutritioninfo_field_formatter_view( $entity_type , $entity , $field , $instance , $langcode , $items , $display ) {
+	 	$element = array();
+		
+		switch ($display['type']) {
+			case 'nutritioninfo_default':
+				$headers = array(
+					t('Calories'),
+				);
+			$element[0]['#markup'] = theme('table', array('header' => $headers, 'rows' => $items));
+			break;
+		}
+		return $element;
+	 }
+

@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Defines numeric field types.
+ */
+ 
+ 
+/**
+ * Implements hook_field_formatter_info().
+ */
+function myCooking_field_formatter_info() {
+  return array(
+    // The 'Default' formatter is different for integer fields on the one hand,
+    // and for decimal and float fields on the other hand, in order to be able
+    // to use different default values for the settings.
+    'myCooking_integer_duration' => array(
+      'label' => t('Duration'),
+      'field types' => array('number_integer'),     
+    )
+  );
+}
+
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function myCooking_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'myCooking_integer_duration':
+      foreach ($items as $delta => $item) {
+
+      	//some simple math to convert the duration minutes to hours
+      	//and the remainder as minutes
+      	
+      	// divide by minutes in 1 hour and get floor
+      	$hours = floor($item['value']/60);
+		
+		// use the modulus to get the remainder of minutes
+		$minutes = $item['value']%60;
+		
+		// get greatest common denominator of minutes to convert to fraction of hours
+		$minutes_gcd = gcd($minutes, 60);
+		
+		//&frasl; is the HTML entity for the fraction seperator,
+		// and we use the sub and sub element to give the appearance of a fraction
+		$minutes_fraction = '<sup>' . $minutes/$minutes_gcd . '</sup>&frasl;<sub>'. 60/$minutes_gcd . '</sub>';
+		$markup = $hours > 0 ? $hours . ' and ' . $minutes_fraction . ' hours' : $minutes_fraction . ' hours';
+		
+		//finally, return our formatted value as the markup for this field formatter
+        $element[$delta] = array('#markup' => $markup);
+      }
+      break;
+  }
+
+  return $element;
+}
+
+ //simple helper function to get gcd of minutes
+       function gcd($a, $b) {
+         $b = ( $a == 0 )? 0 : $b;
+         return ( $a % $b )? gcd($b, abs($a - $b)) : $b;
+       }
+	   
+	   
+/**
+ * Implements hook_field_info_alter().
+ */
+ 
+ function myCooking_field_info_alter(&$info) {
+ 	$info['number_integer']['microdata'] = TRUE;
+ }
