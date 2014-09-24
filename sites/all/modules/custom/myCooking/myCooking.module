@@ -72,3 +72,10 @@ function myCooking_field_formatter_view($entity_type, $entity, $field, $instance
  function myCooking_field_info_alter(&$info) {
  	$info['number_integer']['microdata'] = TRUE;
  }
+ 
+ /**
+  * Fix nutrition info module
+  */
+  
+
+ 

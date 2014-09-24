@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections>
+<connection id="eecc87c2-8919-4e32-aa4d-41892638c330" type="local">
+<name>/Users/hoatruong/workspace/myCooking</name>
+<path>/Users/hoatruong/workspace/myCooking</path>
+</connection>
+<connection id="03c1e4dd-beac-4cc3-8c0c-dde41466680d" type="workspace">
+<name>myCooking</name>
+<path>/myCooking</path>
+</connection>
+</connections>

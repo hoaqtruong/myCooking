@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sites>
+<site>
+<name>New Connection</name>
+<source>file:/Users/hoatruong/workspace/myCooking</source>
+<destination>workspace:/myRecipe</destination>
+</site>
+</sites>

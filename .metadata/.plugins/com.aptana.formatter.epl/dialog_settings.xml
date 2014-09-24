@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="com.aptana.editor.php.formatterFactory">
+		<item value="592" key="height"/>
+		<item value="1139" key="width"/>
+		<item value="22" key="y"/>
+		<item value="301" key="x"/>
+	</section>
+</section>
