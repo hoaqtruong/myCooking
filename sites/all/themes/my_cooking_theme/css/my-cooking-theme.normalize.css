@@ -308,3 +308,29 @@ table {
   box-sizing: border-box;
   *behavior: url('../behaviors/box-sizing/boxsizing.php');
 }
+
+/*styles for Recipe content type*/
+body.page-node div.field--name-field-image{
+	float: left;
+}
+
+body.page-node div.time-yield-wrapper{
+	float: left;
+	margin-left: 20px;
+	border: 1px solid #777;
+	padding: 10px;
+}
+
+body.page-node div.field--name-field-ingredients{
+	clear: left;
+}
+body.page-node div.field--name-field-preptime {
+	color: red;
+}
+
+
+
+body.node-type-recipe div.field-name-field-ingredients{
+	clear: left;
+}
+
