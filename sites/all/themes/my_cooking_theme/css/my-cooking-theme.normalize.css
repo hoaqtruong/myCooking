@@ -314,7 +314,7 @@ body.page-node div.field--name-field-image{
 	float: left;
 }
 
-body.page-node div.time-yield-wrapper{
+body.page-node div.group-time-yield {
 	float: left;
 	margin-left: 20px;
 	border: 1px solid #777;
