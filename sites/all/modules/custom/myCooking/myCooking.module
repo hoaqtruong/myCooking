@@ -31,24 +31,36 @@ function myCooking_field_formatter_view($entity_type, $entity, $field, $instance
   switch ($display['type']) {
     case 'myCooking_integer_duration':
       foreach ($items as $delta => $item) {
-
-      	//some simple math to convert the duration minutes to hours
-      	//and the remainder as minutes
       	
-      	// divide by minutes in 1 hour and get floor
-      	$hours = floor($item['value']/60);
 		
-		// use the modulus to get the remainder of minutes
-		$minutes = $item['value']%60;
+		if ($item['value'] < 60) {
+			$markup = $item['value'] . ' minutes';
+			
+		} else if ($item['value'] == 60) {
+			$markup = '1 hour';
+			
+		} else {
+				//convert the duration minutes to hours and remainder as minutes
 		
-		// get greatest common denominator of minutes to convert to fraction of hours
-		$minutes_gcd = gcd($minutes, 60);
-		
-		//&frasl; is the HTML entity for the fraction seperator,
-		// and we use the sub and sub element to give the appearance of a fraction
-		$minutes_fraction = '<sup>' . $minutes/$minutes_gcd . '</sup>&frasl;<sub>'. 60/$minutes_gcd . '</sub>';
-		$markup = $hours > 0 ? $hours . ' and ' . $minutes_fraction . ' hours' : $minutes_fraction . ' hours';
-		
+				// divide by minutes in 1 hour and get floor
+	      		$hours = floor($item['value']/60);		
+			
+				// use the modulus to get the remainder of minutes
+				$minutes = $item['value'] % 60;
+			
+	
+				// get greatest common denominator of minutes to convert to fraction of hours
+				$minutes_gcd = gcd($minutes, 60);
+			
+				//&frasl; is the HTML entity for the fraction seperator,
+				// and we use the sub and sub element to give the appearance of a fraction
+	
+				$minutes_fraction = '<sup>' . $minutes/$minutes_gcd . '</sup>&frasl;<sub>'. 60/$minutes_gcd . '</sub>';
+				$markup = $hours > 0 ? $hours . ' and ' . $minutes_fraction . ' hours' : $minutes_fraction . ' hours';
+
+			}
+
+	
 		//finally, return our formatted value as the markup for this field formatter
         $element[$delta] = array('#markup' => $markup);
       }
@@ -78,4 +90,4 @@ function myCooking_field_formatter_view($entity_type, $entity, $field, $instance
   */
   
 
- 
+
