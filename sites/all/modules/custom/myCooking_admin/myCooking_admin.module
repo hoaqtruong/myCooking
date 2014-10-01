@@ -75,4 +75,14 @@
 
 		}
     }
+	
+	/**
+	 * Implements hook_wysiwyg_editor_settings_alter()
+	 */
+	
+	 function myCooking_admin_wysiwyg_editor_settings_alter( &$settings, &$context ) {
+	 	if($context['profile']->editor == 'ckeditor') {
+	 		$settings['forcePasteAsPlainText'] = TRUE;
+	 	}
+	 }
    
