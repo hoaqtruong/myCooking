@@ -20,7 +20,6 @@ function myCooking_field_formatter_info() {
   );
 }
 
-
 /**
  * Implements hook_field_formatter_view().
  */
@@ -30,51 +29,80 @@ function myCooking_field_formatter_view($entity_type, $entity, $field, $instance
 
   switch ($display['type']) {
     case 'myCooking_integer_duration':
+		
       foreach ($items as $delta => $item) {
       	
-		
-		if ($item['value'] < 60) {
-			$markup = $item['value'] . ' minutes';
-			
-		} else if ($item['value'] == 60) {
-			$markup = '1 hour';
-			
-		} else {
-				//convert the duration minutes to hours and remainder as minutes
-		
-				// divide by minutes in 1 hour and get floor
-	      		$hours = floor($item['value']/60);		
-			
-				// use the modulus to get the remainder of minutes
-				$minutes = $item['value'] % 60;
-			
-	
-				// get greatest common denominator of minutes to convert to fraction of hours
-				$minutes_gcd = gcd($minutes, 60);
-			
-				//&frasl; is the HTML entity for the fraction seperator,
-				// and we use the sub and sub element to give the appearance of a fraction
-	
-				$minutes_fraction = '<sup>' . $minutes/$minutes_gcd . '</sup>&frasl;<sub>'. 60/$minutes_gcd . '</sub>';
-				$markup = $hours > 0 ? $hours . ' and ' . $minutes_fraction . ' hours' : $minutes_fraction . ' hours';
-
-			}
-
-	
+		$markup = _myCooking_hour_converter($item['value']);
+      	
 		//finally, return our formatted value as the markup for this field formatter
         $element[$delta] = array('#markup' => $markup);
-      }
+	  }
+	  		    
       break;
   }
 
   return $element;
+  }
+
+//helper function to convert total minutes into hour(s) format
+
+function _myCooking_hour_converter($total_minutes) {
+	
+		// if total_minutes =< 0 ------ print 'not reported'
+		if ( $total_minutes <= 0 ) {
+			 $markup = 'not reported'; } 
+		
+		else {
+					
+				//if total_minutes = 1 and 1/2 hours
+				
+				//if total_minutes = 1 hour and 20 minutes
+				
+				//if total_minutes = 2 hours
+				
+				//if total_minutes = 3 and 1/2 hours
+				
+				//if total_minutes = 3 hours and 20 minutes
+
+			$hours = floor($total_minutes / 60) ;
+			$minutes = $total_minutes % 60 ;		
+
+			if ( $minutes ) {
+				
+					if ($minutes % 15 == 0) {
+						 // convert minutes into quater format
+						$minutes_gcd = _myCooking_time_gcd ($minutes, 60);
+						$minutes_markup = '<sup>' . $minutes/$minutes_gcd . '</sup>&frasl;<sub>'. 60/$minutes_gcd . '</sub>';
+						$markup = '1 and ' . $minutes_markup . ' hours';
+					
+					} else {
+						 // can't put in nicely quater format anyway, leave the minutes alone!
+						$minutes_markup = $minutes . ' minutes';
+						$hours == 1 ? $markup = '1 hour and ' . $minutes_markup : $markup = $hours . ' hours ' . $minutes_markup;
+					}
+				
+				
+				
+			} else {		
+
+				$hours == 1 ? $markup = '1 hour' : $markup = $hours . ' hours';
+			}
+			
+
+		}
+	
+		return $markup;
+
 }
 
- //simple helper function to get gcd of minutes
-       function gcd($a, $b) {
+
+ //helper function to get gcd of minutes
+       function _myCooking_time_gcd($a, $b) {
          $b = ( $a == 0 )? 0 : $b;
-         return ( $a % $b )? gcd($b, abs($a - $b)) : $b;
+         return ( $a % $b ) ? _myCooking_time_gcd($b, abs($a - $b)) : $b;
        }
+
+
 	   
 	   
 /**
