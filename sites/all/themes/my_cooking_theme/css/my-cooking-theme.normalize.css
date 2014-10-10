@@ -334,3 +334,9 @@ body.node-type-recipe div.field-name-field-ingredients{
 	clear: left;
 }
 
+article.node--recipe div.field--name-field-media div.file {
+	float: left;
+	margin: 0 5px 5px 0;
+	box-shadow: 0 5px 5px -3px black;
+}
+

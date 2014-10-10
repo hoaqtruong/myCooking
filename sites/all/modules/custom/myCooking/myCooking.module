@@ -73,12 +73,17 @@ function _myCooking_hour_converter($total_minutes) {
 						 // convert minutes into quater format
 						$minutes_gcd = _myCooking_time_gcd ($minutes, 60);
 						$minutes_markup = '<sup>' . $minutes/$minutes_gcd . '</sup>&frasl;<sub>'. 60/$minutes_gcd . '</sub>';
-						$markup = '1 and ' . $minutes_markup . ' hours';
+						$hours < 1 ? $markup = $minutes_markup . ' minutes' : $markup = $hours . ' and ' . $minutes_markup . ' hours';
 					
 					} else {
 						 // can't put in nicely quater format anyway, leave the minutes alone!
 						$minutes_markup = $minutes . ' minutes';
-						$hours == 1 ? $markup = '1 hour and ' . $minutes_markup : $markup = $hours . ' hours ' . $minutes_markup;
+						if ($hours < 1 ) {
+							$markup = $minutes_markup;
+						} else {
+							$hours == 1 ? $markup = '1 hour and ' . $minutes_markup : $markup = $hours . ' hours ' . $minutes_markup;
+						}
+						
 					}
 				
 				
