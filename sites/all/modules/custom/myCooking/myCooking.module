@@ -108,7 +108,31 @@ function _myCooking_hour_converter($total_minutes) {
        }
 
 
-	   
+/**
+ * Implements hook_image_default_styles()
+ */   
+ 
+ function myCooking_image_default_styles() {
+ $styles = array();
+
+  $styles['Small'] = array(
+    'label' => 'Small (160x120)',
+    'effects' => array(
+      array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 160,
+          'height' => 120,
+          'upscale' => 0,
+        ),
+        'weight' => 0,
+      ),
+
+    ),
+  );
+
+  return $styles;
+ }
 	   
 /**
  * Implements hook_field_info_alter().
